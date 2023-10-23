@@ -1,0 +1,45 @@
+﻿@using RunGroup_WebApp__learning_MVC_.Data.Enum;
+@using RunGroup_WebApp__learning_MVC_.ViewModel;
+@model EditRaceViewModel
+
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" value="AddressId" id="AddressId">
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input asp-for="Title" class="form-control" placeholder="Enter title">
+        <span asp-validation-for="Title" id="emailHelp" class="form-text text-muted"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description">Description</label>
+        <input asp-for="Description" class="form-control" placeholder="Enter description">
+        <span asp-validation-for="Description" id="emailHelp" class="form-text text-muted"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="RaceCategory">Race Category</label>
+        <select asp-for="RaceCategory" asp-items="@Html.GetEnumSelectList<RaceCategory>()" class="form-control" placeholder="Enter race category">
+            <option>--Select--</option>
+        </select>
+        <span asp-validation-for="RaceCategory" class="form-text text-muted"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Street">Street</label>
+        <input asp-for="Address.Street" class="form-control" placeholder="Enter street name">
+        <span asp-validation-for="Address.Street" class="form-text text-muted"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.City">City</label>
+        <input asp-for="Address.City" class="form-control" placeholder="Enter city name">
+        <span asp-validation-for="Address.City" class="form-text text-muted"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.State">State</label>
+        <input asp-for="Address.State" class="form-control" placeholder="Enter state name">
+        <span asp-validation-for="Address.State" class="form-text text-muted"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Image">Image</label>
+        <input asp-for="Image" type="file" class="form-control" placeholder="Image url goes here">
+        <span asp-validation-for="Image" id="emailHelp" class="form-text text-muted"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
