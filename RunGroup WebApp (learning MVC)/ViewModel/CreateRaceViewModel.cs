@@ -10,5 +10,6 @@ namespace RunGroup_WebApp__learning_MVC_.ViewModel
         public IFormFile Image { get; set; }
         public Address Address { get; set; }
         public RaceCategory RaceCategory { get; set; }
+        public string AppUserId { get; set; }
     }
 }

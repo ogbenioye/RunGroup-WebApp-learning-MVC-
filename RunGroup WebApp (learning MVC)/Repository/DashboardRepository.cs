@@ -16,16 +16,16 @@ namespace RunGroup_WebApp__learning_MVC_.Repository
         }
         public async Task<List<Club>> GetUserClubs()
         {
-            var curUser = _httpContextAccessor.HttpContext?.User;
-            var clubs = _context.Clubs.Where(c => c.AppUser.Id == curUser.ToString());
+            var curUser = _httpContextAccessor.HttpContext?.User.GetUserId();
+            var clubs = _context.Clubs.Where(c => c.AppUser.Id == curUser);
 
             return clubs.ToList();
         }
 
         public async Task<List<Race>> GetUserRaces()
         {
-            var curUser = _httpContextAccessor.HttpContext?.User;
-            var races = _context.Races.Where(r => r.AppUser.Id == curUser.ToString());
+            var curUser = _httpContextAccessor.HttpContext?.User.GetUserId();
+            var races = _context.Races.Where(r => r.AppUser.Id == curUser);
 
             return races.ToList();
         }

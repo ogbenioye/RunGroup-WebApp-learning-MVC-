@@ -11,10 +11,13 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
     {
         private readonly IRaceRepository repo;
         private readonly IPhotoService _photoService;
-        public RaceController(IRaceRepository raceRepo, IPhotoService photoService) {
+        private readonly IHttpContextAccessor _httpContext;
+        public RaceController(IRaceRepository raceRepo, IPhotoService photoService, IHttpContextAccessor httpContext) {
             repo = raceRepo;
             _photoService = photoService;
+            _httpContext = httpContext;
         }
+
         public async Task<IActionResult> Index()
         {
             IEnumerable<Race> races = await repo.GetAll();
@@ -29,7 +32,9 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
 
        public IActionResult Create()
        {
-           return View();
+            var curUser = _httpContext.HttpContext.User.GetUserId();
+            var raceVM = new CreateRaceViewModel { AppUserId = curUser };
+           return View(raceVM);
        }
 
         [HttpPost]
@@ -49,7 +54,8 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
                         Street = raceVM.Address.Street,
                         City = raceVM.Address.City,
                         State = raceVM.Address.State,
-                    }
+                    },
+                    AppUserId = raceVM.AppUserId
                 };
                 repo.Add(race);
                 return RedirectToAction("Index");

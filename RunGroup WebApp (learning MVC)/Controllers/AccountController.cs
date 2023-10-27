@@ -79,7 +79,7 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
             if (userResponse.Succeeded)
                 await _userManager.AddToRoleAsync(newUser, UserRoles.User);
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Login","Account");
         }
 
         [HttpPost]
