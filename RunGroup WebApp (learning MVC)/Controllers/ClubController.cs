@@ -120,7 +120,7 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
                     Address = clubVM.Address,
                 };
 
-                repo.Update(club);
+                repo.Update(newClub);
                 return RedirectToAction("Index");
             }
             else
