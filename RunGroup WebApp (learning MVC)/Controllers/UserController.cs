@@ -31,5 +31,19 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
             }
             return View(result);
         }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            var user = await _userRepository.GetUserById(id);
+            var userVM = new UserViewModel
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Pace = user.Pace,
+                Mielage = user.Mielage,
+            };
+
+            return View(userVM);
+        }
     }
 }
