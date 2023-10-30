@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Mvc;
 using RunGroup_WebApp__learning_MVC_.Interfaces;
+using RunGroup_WebApp__learning_MVC_.Models;
 using RunGroup_WebApp__learning_MVC_.Repository;
 using RunGroup_WebApp__learning_MVC_.ViewModel;
 
@@ -9,11 +11,13 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
     {
         private readonly IDashboardRepository _dashboardRepository;
         private readonly IHttpContextAccessor _httpContext;
+        private readonly IPhotoService _photoService;
 
-        public DashboardController(IDashboardRepository dashboardRepository, IHttpContextAccessor httpContext) 
+        public DashboardController(IDashboardRepository dashboardRepository, IHttpContextAccessor httpContext, IPhotoService photoService) 
         {
             _dashboardRepository = dashboardRepository;
             _httpContext = httpContext;
+            _photoService = photoService;
         }
         public async Task<IActionResult> Index()
         {
@@ -44,6 +48,58 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
                 ProfileImageUrl = user.ProfileImageUrl,
             };
             return View(userVM);
+        }
+
+        private void MapUserUpdate(AppUser user, EditUserProfileViewModel editVM, ImageUploadResult photoResult)
+        {
+            user.Pace = editVM.Pace;
+            user.Mielage = editVM.Mielage;
+            user.City = editVM.City;
+            user.State = editVM.State;
+            user.ProfileImageUrl = photoResult.Url.ToString();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUserProfile(EditUserProfileViewModel editVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Failed to save changes");
+                return View("EditUserProfile", editVM);
+            }
+
+            var user = await _dashboardRepository.GetUserById(editVM.Id);
+
+            if (user.ProfileImageUrl == null || user.ProfileImageUrl == "")
+            {
+                var photoResult = await _photoService.AddPhotoAsync(editVM.Image);
+
+                MapUserUpdate(user, editVM, photoResult);
+
+                _dashboardRepository.Update(user);
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                try
+                {
+                    await _photoService.DeletePhotoAsync(user.ProfileImageUrl);
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Failed to replace old image");
+                    return View(editVM);
+                }
+
+                var photoResult = await _photoService.AddPhotoAsync(editVM.Image);
+
+                MapUserUpdate(user, editVM, photoResult);
+
+                _dashboardRepository.Update(user);
+
+                return RedirectToAction("Index");
+            }
         }
     }
 }

@@ -31,9 +31,21 @@ namespace RunGroup_WebApp__learning_MVC_.Repository
             return races.ToList();
         }
 
-        public async Task<AppUser> GetUserById(string Id)
+        public async Task<AppUser> GetUserById(string id)
         {
-            return await _context.Users.FindAsync(Id);
+            return await _context.Users.FindAsync(id);
+        }
+
+        public bool Update(AppUser user) 
+        {
+            _context.Update(user);
+            return Save();
+        }
+
+        public bool Save()
+        {
+           var result = _context.SaveChanges();
+           return result > 0 ? true : false;
         }
     }
 }
