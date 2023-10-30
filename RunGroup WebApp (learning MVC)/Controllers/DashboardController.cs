@@ -25,5 +25,10 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
             };
             return View(dashboardVM);
         }
+
+        public async Task<IActionResult> EditUserProfile()
+        {
+            return View();
+        }
     }
 }
