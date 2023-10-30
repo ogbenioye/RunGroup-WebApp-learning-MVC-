@@ -35,6 +35,9 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
         public async Task<IActionResult> Details(string id)
         {
             var user = await _userRepository.GetUserById(id);
+            if (user == null)
+                return View("Error");
+
             var userVM = new UserViewModel
             {
                 Id = user.Id,
