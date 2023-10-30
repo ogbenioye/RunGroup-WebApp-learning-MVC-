@@ -1,4 +1,5 @@
-﻿using RunGroup_WebApp__learning_MVC_.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RunGroup_WebApp__learning_MVC_.Data;
 using RunGroup_WebApp__learning_MVC_.Interfaces;
 using RunGroup_WebApp__learning_MVC_.Models;
 
@@ -28,6 +29,11 @@ namespace RunGroup_WebApp__learning_MVC_.Repository
             var races = _context.Races.Where(r => r.AppUser.Id == curUser);
 
             return races.ToList();
+        }
+
+        public async Task<AppUser> GetUserById(string Id)
+        {
+            return await _context.Users.FindAsync(Id);
         }
     }
 }

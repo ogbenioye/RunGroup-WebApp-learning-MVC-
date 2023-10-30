@@ -8,6 +8,9 @@ namespace RunGroup_WebApp__learning_MVC_.Models
     {
         public int? Pace { get; set; }
         public int? Mielage { get; set; }
+        public string? ProfileImageUrl { get; set; }
+        public string? City { get; set; }
+        public string? State { get; set; }
         [ForeignKey("Address")]
         public int? AddressId { get; set; }
         public Address? Address { get; set; }

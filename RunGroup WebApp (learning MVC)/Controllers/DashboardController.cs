@@ -8,10 +8,12 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
     public class DashboardController : Controller
     {
         private readonly IDashboardRepository _dashboardRepository;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public DashboardController(IDashboardRepository dashboardRepository) 
+        public DashboardController(IDashboardRepository dashboardRepository, IHttpContextAccessor httpContext) 
         {
             _dashboardRepository = dashboardRepository;
+            _httpContext = httpContext;
         }
         public async Task<IActionResult> Index()
         {
@@ -28,7 +30,20 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
 
         public async Task<IActionResult> EditUserProfile()
         {
-            return View();
+            var curUserId = _httpContext.HttpContext.User.GetUserId();
+            var user = await _dashboardRepository.GetUserById(curUserId);
+            if (user == null) return View("Error");
+
+            var userVM = new EditUserProfileViewModel
+            {
+                Id = curUserId,
+                Pace = user.Pace,
+                Mielage = user.Mielage,
+                City = user.City,
+                State = user.State,
+                ProfileImageUrl = user.ProfileImageUrl,
+            };
+            return View(userVM);
         }
     }
 }
