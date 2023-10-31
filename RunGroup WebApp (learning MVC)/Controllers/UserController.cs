@@ -44,6 +44,7 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
                 UserName = user.UserName,
                 Pace = user.Pace,
                 Mielage = user.Mielage,
+                ProfileImageUrl = user.ProfileImageUrl
             };
 
             return View(userVM);

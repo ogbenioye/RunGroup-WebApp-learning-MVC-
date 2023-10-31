@@ -6,5 +6,6 @@
         public string UserName { get; set; }
         public int? Pace { get; set; }
         public int? Mielage { get; set; }
+        public string ProfileImageUrl { get; set; }
     }
 }

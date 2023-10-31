@@ -14,16 +14,6 @@ namespace RunGroup_WebApp__learning_MVC_.Repository
             _context = context;
         }
 
-        public bool Add(AppUser user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Delete(AppUser user)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<AppUser>> GetAllUsers()
         {
            return await _context.Users.ToListAsync();
