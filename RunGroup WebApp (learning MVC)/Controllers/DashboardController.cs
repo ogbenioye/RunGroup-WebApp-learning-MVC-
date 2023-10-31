@@ -40,7 +40,6 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
 
             var userVM = new EditUserProfileViewModel
             {
-                Id = curUserId,
                 Pace = user.Pace,
                 Mielage = user.Mielage,
                 City = user.City,
@@ -68,7 +67,8 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
                 return View("EditUserProfile", editVM);
             }
 
-            var user = await _dashboardRepository.GetUserById(editVM.Id);
+            var curUserId = _httpContext.HttpContext.User.GetUserId();
+            var user = await _dashboardRepository.GetUserById(curUserId);
 
             if (user.ProfileImageUrl == null || user.ProfileImageUrl == "")
             {
@@ -80,7 +80,8 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
 
                 return RedirectToAction("Index");
             }
-            else
+
+            if (editVM.Image != null)
             {
                 try
                 {
@@ -95,11 +96,18 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
                 var photoResult = await _photoService.AddPhotoAsync(editVM.Image);
 
                 MapUserUpdate(user, editVM, photoResult);
-
-                _dashboardRepository.Update(user);
-
-                return RedirectToAction("Index");
+            } 
+            else
+            {
+                user.Pace = editVM.Pace;
+                user.Mielage = editVM.Mielage;
+                user.City = editVM.City;
+                user.State = editVM.State;
             }
+
+            _dashboardRepository.Update(user);
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -71,7 +71,7 @@
                                 <div class="media-body">
                                     <form asp-action="EditUserProfile" enctype="multipart/form-data">
                                         <label asp-for="Image" class="custom-file mb-2" for="file2">
-                                            <input asp-for="Image" type="file" id="file2" class="custom-file-input height-0"/>
+                                            <input asp-for="Image" type="file" id="file2" class="custom-file-input height-0" oninput="submitProfileImage();" />
                                             <span asp-validation-for="Image" class="text-danger"></span>
                                             <button id="submit-image-button" type="submit" hidden></button>
                                         </label>
@@ -301,3 +301,10 @@
     </section>
     <!--end of section-->
 </div>
+
+
+<script type="text/javascript">
+    function submitProfileImage() {
+        document.getElementById("submit-image-button").click();
+    }
+</script>
