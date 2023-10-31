@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using RunGroup_WebApp__learning_MVC_.Helper;
 using RunGroup_WebApp__learning_MVC_.Models;
+using RunGroup_WebApp__learning_MVC_.ViewModel;
 using System.Diagnostics;
+using System.Globalization;
+using System.Net;
 
 namespace RunGroup_WebApp__learning_MVC_.Controllers
 {
@@ -13,7 +18,7 @@ namespace RunGroup_WebApp__learning_MVC_.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
